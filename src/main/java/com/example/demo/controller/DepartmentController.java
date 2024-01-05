@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Department;
+import com.example.demo.error.DepartmentNotFoundException;
 import com.example.demo.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class DepartmentController {
@@ -31,8 +33,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/{id}")
-    public Department getDepartmentById(@PathVariable("id") Long departmentId){
-        return departmentService.getDepartmentsById(departmentId);
+    public Optional<Department> getDepartmentById(@PathVariable("id") Long departmentId) throws DepartmentNotFoundException {
+        Optional<Department> department = Optional.ofNullable(departmentService.getDepartmentsById(departmentId));
+        if(department.isEmpty()){
+            throw new DepartmentNotFoundException("Department not Available");
+        }
+
+        return department;
     }
 
     @DeleteMapping("/departments/{id}")

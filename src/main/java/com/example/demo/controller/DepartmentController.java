@@ -31,15 +31,10 @@ public class DepartmentController {
         LOGGER.info("Inside the fetch Department");
         return departmentService.fetchDepartments();
     }
-
     @GetMapping("/departments/{id}")
-    public Optional<Department> getDepartmentById(@PathVariable("id") Long departmentId) throws DepartmentNotFoundException {
-        Optional<Department> department = Optional.ofNullable(departmentService.getDepartmentsById(departmentId));
-        if(department.isEmpty()){
-            throw new DepartmentNotFoundException("Department not Available");
-        }
-
-        return department;
+    public Department getDepartmentById(@PathVariable("id") Long departmentId)
+            throws DepartmentNotFoundException {
+        return departmentService.getDepartmentsById(departmentId);
     }
 
     @DeleteMapping("/departments/{id}")

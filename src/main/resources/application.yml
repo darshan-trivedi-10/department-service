@@ -13,3 +13,10 @@ spring:
     show-sql: 'true'
 welcome:
   message: 'Welcome to the world of java'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
